@@ -3,6 +3,7 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
 
+
         var randomMatrix = createRandomMatrix(3,5);
         printMatrix(randomMatrix);
         System.out.println("====================================");
@@ -73,5 +74,4 @@ public class Main {
     }
 
 
-
-    }
+}
