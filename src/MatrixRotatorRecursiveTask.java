@@ -27,7 +27,7 @@ public class MatrixRotatorRecursiveTask extends RecursiveAction {
     @Override
     protected void compute() {
         if(i==k || j==l) return;
-        Collection<MatrixRotatorRecursiveTask> dividedTasks = new ArrayList<>();
+
         if ((k-i)%THRESHOLD==0 && matrix.length==THRESHOLD && (l-j)%THRESHOLD==0 && matrix[0].length==THRESHOLD ){
             ForkJoinTask.invokeAll(createSubtaskAllAcrossSplit());
         }
