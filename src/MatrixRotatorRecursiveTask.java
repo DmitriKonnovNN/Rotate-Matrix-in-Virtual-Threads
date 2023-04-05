@@ -5,7 +5,7 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 import java.util.stream.IntStream;
 
-public class MatrixRotatorRecursiveTask extends RecursiveAction {
+public class MatrixRotatorRecursiveTask extends RecursiveAction implements MatrixRotatorTask {
     private static final int THRESHOLD = 10;
     private int[][] matrix;
     private int[][] newMatrix;
@@ -24,8 +24,12 @@ public class MatrixRotatorRecursiveTask extends RecursiveAction {
     }
 
 
+    /**
+     * Does rotation, if matrix isn't splittable. Otherwise, splits vertically or/and horizontally, creates new recursive task
+     * and submits those to ForkJoinPool.
+     * */
     @Override
-    protected void compute() {
+    public void compute() {
         if(i==k || j==l) return;
 
         if ((k-i)%THRESHOLD==0 && matrix.length==THRESHOLD && (l-j)%THRESHOLD==0 && matrix[0].length==THRESHOLD ){
@@ -46,16 +50,30 @@ public class MatrixRotatorRecursiveTask extends RecursiveAction {
     private Collection<MatrixRotatorRecursiveTask> createSubtaskVerticalSplit() {
         Collection<MatrixRotatorRecursiveTask> dividedTasks = new ArrayList<>();
         int divider = (k-i)/THRESHOLD;
-        IntStream.range(0,divider).forEach(d-> dividedTasks.add(new MatrixRotatorRecursiveTask(matrix,newMatrix,THRESHOLD*d,j,THRESHOLD*(d+1),l )));
+        IntStream.range(0,divider).forEach(d-> dividedTasks.add(new MatrixRotatorRecursiveTask(
+                matrix,
+                newMatrix,
+                THRESHOLD*d,
+                j,
+                THRESHOLD*(d+1),l )));
         return dividedTasks;
     }
     private Collection<MatrixRotatorRecursiveTask> createSubtaskHorizontalSplit() {
         List<MatrixRotatorRecursiveTask> dividedTasks = new ArrayList<>();
         int divider = (l-j)/THRESHOLD;
-        IntStream.range(0,divider).forEach(d-> dividedTasks.add(new MatrixRotatorRecursiveTask(matrix,newMatrix,i,j*THRESHOLD,k,THRESHOLD*(l+1) )));
+        IntStream.range(0,divider).forEach(d-> dividedTasks.add(new MatrixRotatorRecursiveTask(
+                matrix,
+                newMatrix,
+                i,
+                j*THRESHOLD,
+                k,
+                THRESHOLD*(l+1) )));
         return dividedTasks;
     }
 
+    /**
+     * Splits matrix vertically and horizontally and passes start- and end- indexes to subtask.
+     * */
     private Collection<MatrixRotatorRecursiveTask> createSubtaskAllAcrossSplit() {
         Collection<MatrixRotatorRecursiveTask> dividedTasks = new ArrayList<>();
         int dividerVertical = (k-i)/THRESHOLD;
