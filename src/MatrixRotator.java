@@ -5,13 +5,32 @@ import java.util.concurrent.Executors;
 
 public class MatrixRotator implements RotateMatrix {
 
-    public static void rotate(int [][] matrix, int[][]newMatrix,int i, int j, int k, int l){
+    public static void rotate(int [][] matrix, int[][]tempMatrix,int i, int j, int k, int l){
 
+        final int tempI = i;
+        final int tempJ = j;
+//        System.out.println("Inside rotate: before");
+//        Utils.printMatrix(matrix);
         for (; i < l; i++){
             for (; j < k; j++){
-                newMatrix[j][matrix.length - 1 - i] = matrix[i][j];
+                tempMatrix[j][matrix.length - 1 - i] = matrix[i][j];
+
             }
+            if (j==k)j=tempJ;
         }
+        i = tempI;
+        j = tempJ;
+//        System.out.println("Inside rotate: tempMatrix after");
+//        Utils.printMatrix(tempMatrix);
+        for (;i < l; i++){
+            for(;j < k; j++){
+                matrix[i][j]=tempMatrix[i][j];
+
+            }
+            if (j==k)j=tempJ;
+        }
+//        System.out.println("Inside rotate: matrix after rotate");
+//        Utils.printMatrix(matrix);
     }
     public static void rotate(int [][] matrix){
         rotate(matrix,new int[matrix.length][matrix[0].length],0,0,matrix.length,matrix[0].length );
@@ -21,7 +40,7 @@ public class MatrixRotator implements RotateMatrix {
     @Override
     public void rotate90Sequential(MatrixRotatorTask[] tasks) {
 
-        executeWithMetrics(()-> Arrays.stream(tasks).peek(MatrixRotatorTask::compute));
+        executeWithMetrics(()-> Arrays.stream(tasks).forEach(MatrixRotatorTask::compute));
 
     }
 
@@ -33,7 +52,7 @@ public class MatrixRotator implements RotateMatrix {
             var futures = Arrays.stream(tasks)
                     .map(task -> CompletableFuture.runAsync(task::compute)).toList();
 
-            futures.stream().peek(CompletableFuture::join);
+            futures.forEach(CompletableFuture::join);
         });
 
     }
@@ -47,7 +66,7 @@ public class MatrixRotator implements RotateMatrix {
             var futures = Arrays.stream(tasks)
                     .map(task -> CompletableFuture.runAsync(task::compute, executor)).toList();
 
-            futures.stream().peek(CompletableFuture::join);
+            futures.forEach(CompletableFuture::join);
         });
 
         executor.shutdown();
@@ -56,7 +75,7 @@ public class MatrixRotator implements RotateMatrix {
     @Override
     public void rotate90ParallelStream(MatrixRotatorTask[] tasks) {
 
-        executeWithMetrics(()-> Arrays.stream(tasks).parallel().peek(MatrixRotatorTask::compute));
+        executeWithMetrics(()-> Arrays.stream(tasks).parallel().forEach(MatrixRotatorTask::compute));
 
     }
 

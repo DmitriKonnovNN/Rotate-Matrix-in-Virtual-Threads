@@ -11,8 +11,14 @@ public class MatrixRotatorRecursiveTask extends RecursiveAction implements Matri
     private int[][] newMatrix;
     int i,j,k,l;
 
-
-
+    public MatrixRotatorRecursiveTask(int[][] matrix) {
+        this.matrix = matrix;
+        this.newMatrix = new int[matrix.length][matrix[0].length];
+        this.i = 0;
+        this.j = 0;
+        this.k = matrix.length;
+        this.l = matrix[0].length;
+    }
 
     public MatrixRotatorRecursiveTask(int[][] matrix, int [][] newMatrix, int i, int j, int k, int l) {
         this.matrix = matrix;
@@ -44,7 +50,7 @@ public class MatrixRotatorRecursiveTask extends RecursiveAction implements Matri
                 ForkJoinTask.invokeAll(createSubtaskHorizontalSplit());
             }
 
-        else MatrixRotator.rotate(matrix, newMatrix, 0, 0, matrix.length, matrix[0].length);
+        else MatrixRotator.rotate(matrix, newMatrix, i, j, matrix.length, matrix[0].length);
     }
 
     private Collection<MatrixRotatorRecursiveTask> createSubtaskVerticalSplit() {
