@@ -38,14 +38,14 @@ public class MatrixRotatorRecursiveTask extends RecursiveAction implements Matri
     public void compute() {
         if(i==k || j==l) return;
 
-        if ((k-i)%THRESHOLD==0 && matrix.length==THRESHOLD && (l-j)%THRESHOLD==0 && matrix[0].length==THRESHOLD ){
+        if ((k-i)%THRESHOLD==0 && matrix.length==THRESHOLD && (l-j)%THRESHOLD==0 && matrix[0].length==THRESHOLD && k!=THRESHOLD && l!=THRESHOLD ){
             ForkJoinTask.invokeAll(createSubtaskAllAcrossSplit());
         }
-        else if ((k-i)%THRESHOLD==0 && matrix.length==THRESHOLD)
+        else if ((k-i)%THRESHOLD==0 && k!=THRESHOLD && matrix.length==THRESHOLD)
             {
                 ForkJoinTask.invokeAll(createSubtaskVerticalSplit());
             }
-        else if ((l-j)%THRESHOLD==0 && matrix[0].length==THRESHOLD)
+        else if ((l-j)%THRESHOLD==0 && l!=THRESHOLD && matrix[0].length==THRESHOLD)
             {
                 ForkJoinTask.invokeAll(createSubtaskHorizontalSplit());
             }

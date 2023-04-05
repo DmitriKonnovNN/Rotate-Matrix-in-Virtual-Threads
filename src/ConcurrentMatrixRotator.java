@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 public class ConcurrentMatrixRotator {
     public static void main(String[] args) {
-        int size = 10;
+        int size = 20;
         int numberOfMatrices = 1;
         //      initialization with reversed length and width lets us create a new matrix with length and width of not equal size;
         //   int[][] newMatrix = new int[matrix[0].length][matrix.length]; but where?
