@@ -6,10 +6,12 @@ import java.util.stream.IntStream;
 
 public class ConcurrentMatrixRotator {
     public static void main(String[] args) {
-        int size = 20;
-        int numberOfMatrices = 1;
+        int size = 200;
+        int numberOfMatrices = 10000;
         //      initialization with reversed length and width lets us create a new matrix with length and width of not equal size;
         //   int[][] newMatrix = new int[matrix[0].length][matrix.length]; but where?
+
+
         int length = 5;
         int width = 10;
         RotateMatrix rotateMatrix = new MatrixRotator();
@@ -23,7 +25,7 @@ public class ConcurrentMatrixRotator {
         IntStream.range(0,numberOfMatrices).forEach(index->{
             matrices.add(Utils.generateRandom2DMatrix(size));
         });
-        matrices.forEach(Utils::printMatrix);
+        //matrices.forEach(Utils::printMatrix);
 
 
         /**
@@ -36,9 +38,17 @@ public class ConcurrentMatrixRotator {
         System.out.println("Before rotation. Number of tasks: " + simpleTasks.length);
 
 
-        rotateMatrix.rotate90Sequential(simpleTasks);
+        rotateMatrix.rotate270Sequential(simpleTasks);
         System.out.println("Sequentially rotated matrices:");
-        matrices.forEach(Utils::printMatrix);
+        //matrices.forEach(Utils::printMatrix);
+
+        System.out.println("Rotate with CompleteableFuture");
+        rotateMatrix.rotate270CompletableFuture(simpleTasks);
+        //matrices.forEach(Utils::printMatrix);
+
+        System.out.println("Rotate in parallel streams");
+        rotateMatrix.rotate270ParallelStream(simpleTasks);
+        //matrices.forEach(Utils::printMatrix);
     }
 
 }

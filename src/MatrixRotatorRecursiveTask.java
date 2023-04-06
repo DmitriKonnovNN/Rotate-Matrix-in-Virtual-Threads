@@ -12,6 +12,7 @@ public class MatrixRotatorRecursiveTask extends RecursiveAction implements Matri
     int i,j,k,l;
 
     public MatrixRotatorRecursiveTask(int[][] matrix) {
+        if(matrix.length!=matrix[0].length) throw new RuntimeException("Rotating of matrix with unequal length and with is not implemented!");
         this.matrix = matrix;
         this.newMatrix = new int[matrix.length][matrix[0].length];
         this.i = 0;
