@@ -54,6 +54,11 @@ public class ConcurrentMatrixRotator {
         rotateMatrix.rotate90CompletableFutureWithExecutor(recursiveTasks,7);
         System.out.println("");
 
+
+        System.out.println("Rotate with Virtual Threads");
+        rotateMatrix.rotate90VirtualThead(recursiveTasks);
+        System.out.println("");
+
         System.out.println("====================SIMPLE TASK=================================");
         /**
          * generate and run simple tasks;

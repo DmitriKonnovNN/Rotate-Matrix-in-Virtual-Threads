@@ -38,6 +38,10 @@ public class MatrixRotator implements RotateMatrix {
         rotate(matrix,new int[matrix.length][matrix[0].length],0,0,matrix.length,matrix[0].length );
     }
 
+    @Override
+    public void rotate90VirtualThead(MatrixRotatorTask[] task) {
+        executeWithVirtualThreads(()-> Arrays.stream(task).forEach(MatrixRotatorTask::compute));
+    }
 
     @Override
     public void rotate90Sequential(MatrixRotatorTask[] tasks) {
@@ -79,6 +83,14 @@ public class MatrixRotator implements RotateMatrix {
 
         executeWithMetrics(()-> Arrays.stream(tasks).parallel().forEach(MatrixRotatorTask::compute));
 
+    }
+
+    private void executeWithVirtualThreads(Runnable task){
+        System.out.println("Execution in Virtual Threads started!\nWait…");
+        var startTime =System.currentTimeMillis();
+        Thread.ofVirtual().start(task);
+        var endTime = System.currentTimeMillis();
+        System.out.println("Time elapsed: " + (endTime - startTime) + " ms");
     }
 
     private void executeWithMetrics(Runnable task){
