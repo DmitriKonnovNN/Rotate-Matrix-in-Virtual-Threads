@@ -1,3 +1,5 @@
+package solutions.dmitrikonnov.demo;
+
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -10,7 +12,7 @@ public class MatrixRotator implements RotateMatrix {
         final int tempI = i;
         final int tempJ = j;
 //        System.out.println("Inside rotate: before");
-//        Utils.printMatrix(matrix);
+//        main.java.solutions.dmitrikonnov.Utils.printMatrix(matrix);
         for (; i < l; i++){
             for (; j < k; j++){
                 tempMatrix[j][matrix.length - 1 - i] = matrix[i][j];
@@ -21,21 +23,25 @@ public class MatrixRotator implements RotateMatrix {
         i = tempI;
         j = tempJ;
 //        System.out.println("Inside rotate: tempMatrix after");
-//        Utils.printMatrix(tempMatrix);
+//        main.java.solutions.dmitrikonnov.Utils.printMatrix(tempMatrix);
         for (;i < l; i++){
             for(;j < k; j++){
-                matrix[i][j]=tempMatrix[i][j];
+                matrix[i][j]= Utils.generateHighCpuLoad(tempMatrix[i][j]);
 
             }
             if (j==k)j=tempJ;
         }
 //        System.out.println("Inside rotate: matrix after rotate");
-//        Utils.printMatrix(matrix);
+//        main.java.solutions.dmitrikonnov.Utils.printMatrix(matrix);
     }
     public static void rotate(int [][] matrix){
         rotate(matrix,new int[matrix.length][matrix[0].length],0,0,matrix.length,matrix[0].length );
     }
 
+    @Override
+    public void rotate90VirtualThead(MatrixRotatorTask[] task) {
+        executeWithVirtualThreads(()-> Arrays.stream(task).forEach(MatrixRotatorTask::compute));
+    }
 
     @Override
     public void rotate90Sequential(MatrixRotatorTask[] tasks) {
@@ -77,6 +83,14 @@ public class MatrixRotator implements RotateMatrix {
 
         executeWithMetrics(()-> Arrays.stream(tasks).parallel().forEach(MatrixRotatorTask::compute));
 
+    }
+
+    private void executeWithVirtualThreads(Runnable task){
+        System.out.println("Execution in Virtual Threads started!\nWait…");
+        var startTime =System.currentTimeMillis();
+        Thread.ofVirtual().start(task);
+        var endTime = System.currentTimeMillis();
+        System.out.println("Time elapsed: " + (endTime - startTime) + " ms");
     }
 
     private void executeWithMetrics(Runnable task){

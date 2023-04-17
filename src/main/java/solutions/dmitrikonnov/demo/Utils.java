@@ -1,4 +1,14 @@
+package solutions.dmitrikonnov.demo;
+
 public class Utils {
+
+    public static int generateHighCpuLoad (int numberOfIterations){
+        int result = 0;
+        for (int i = 0; i < numberOfIterations; i++) {
+            result += Math.sqrt(i);
+        }
+        return result;
+    }
 
     public static int [][] generateRandom2DMatrix(){
         int length = (int) (Math.random() * 100);

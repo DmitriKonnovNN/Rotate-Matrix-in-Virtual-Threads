@@ -1,3 +1,5 @@
+package solutions.dmitrikonnov.demo;
+
 public class MatrixRotatorSequentialTask implements MatrixRotatorTask {
 
     private int [][] matrix;
