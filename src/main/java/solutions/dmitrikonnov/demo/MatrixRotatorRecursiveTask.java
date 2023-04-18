@@ -1,11 +1,6 @@
 package solutions.dmitrikonnov.demo;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
-import java.util.stream.IntStream;
 
 public class MatrixRotatorRecursiveTask extends MatrixRotatorRecursiveAbstractTask implements MatrixRotatorTask {
 
@@ -18,9 +13,11 @@ public class MatrixRotatorRecursiveTask extends MatrixRotatorRecursiveAbstractTa
     }
 
     @Override
-    HexaInitializer<int[][], int[][], int, int, int, int,MatrixRotatorRecursiveTask> getSubtaskInitializer() {
-        return MatrixRotatorRecursiveTask::new;
-
+    HexaInitializer<MatrixRotatorRecursiveTask> getOperator(){
+        HexaInitializer<MatrixRotatorRecursiveTask> operator = (matrix, newMatrix, i, j, k, l) -> {
+            return new MatrixRotatorRecursiveTask(matrix,newMatrix,i,j,k,l);
+        };
+        return operator;
     }
 
     /**

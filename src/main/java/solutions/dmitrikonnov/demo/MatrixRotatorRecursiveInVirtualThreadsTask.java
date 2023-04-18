@@ -13,11 +13,16 @@ public class MatrixRotatorRecursiveInVirtualThreadsTask extends MatrixRotatorRec
         super(matrix, newMatrix, i, j, k, l);
     }
 
-    @Override
-    HexaInitializer<int[][], int[][], int, int, int, int,MatrixRotatorRecursiveInVirtualThreadsTask> getSubtaskInitializer() {
-        return MatrixRotatorRecursiveInVirtualThreadsTask::new;
-
+   @Override
+   HexaInitializer<MatrixRotatorRecursiveInVirtualThreadsTask> getOperator(){
+        HexaInitializer<MatrixRotatorRecursiveInVirtualThreadsTask> operator = (matrix, newMatrix, i, j, k, l) -> {
+            return new MatrixRotatorRecursiveInVirtualThreadsTask(matrix,newMatrix,i,j,k,l);
+        };
+        return operator;
     }
+
+
+
 
     @Override
     public void compute() {

@@ -13,7 +13,8 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
     int[][] newMatrix;
     int i,j,k,l;
 
-    abstract HexaInitializer<int[][], int[][], int, int, int, int, ? extends MatrixRotatorRecursiveAbstractTask> getSubtaskInitializer();
+
+    abstract HexaInitializer<? extends MatrixRotatorRecursiveAbstractTask> getOperator();
     MatrixRotatorRecursiveAbstractTask(int[][] matrix) {
         if(matrix.length!=matrix[0].length) throw new RuntimeException("Rotating of matrix with unequal length and with is not implemented!");
         this.matrix = matrix;
@@ -43,8 +44,8 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
         IntStream.range(0,divider)
                 .forEach(d-> dividedTasks.
                 add(
-                        (getSubtaskInitializer()
-                                .getInstance(
+                        (getOperator()
+                                .initialize(
                                         matrix,
                                         newMatrix,
                                         THRESHOLD*d,
@@ -59,7 +60,7 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
         int divider = (l-j)/THRESHOLD;
 
         IntStream.range(0,divider)
-                .forEach(d-> dividedTasks.add( getSubtaskInitializer().getInstance(
+                .forEach(d-> dividedTasks.add( getOperator().initialize(
                 matrix,
                 newMatrix,
                 i,
@@ -80,7 +81,7 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
 
         IntStream.range(0,dividerVertical)
                 .forEach(dv-> IntStream.range(0, dividerHorizontal)
-                        .forEach(dh-> dividedTasks.add(getSubtaskInitializer().getInstance(
+                        .forEach(dh-> dividedTasks.add(getOperator().initialize(
                                 matrix,
                                 newMatrix,
                                 THRESHOLD*dv,
