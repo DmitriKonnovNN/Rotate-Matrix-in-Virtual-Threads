@@ -13,11 +13,11 @@ public class MatrixRotatorRecursiveTask extends MatrixRotatorRecursiveAbstractTa
     }
 
     @Override
-    HexaInitializer<MatrixRotatorRecursiveTask> getOperator(){
-        HexaInitializer<MatrixRotatorRecursiveTask> operator = (matrix, newMatrix, i, j, k, l) -> {
+    HexaInitializer<MatrixRotatorRecursiveTask> getInitializer(){
+        HexaInitializer<MatrixRotatorRecursiveTask> initializer = (matrix, newMatrix, i, j, k, l) -> {
             return new MatrixRotatorRecursiveTask(matrix,newMatrix,i,j,k,l);
         };
-        return operator;
+        return initializer;
     }
 
     /**
