@@ -45,7 +45,7 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
                 .forEach(d-> dividedTasks.
                 add(
                         (getOperator()
-                                .initializeWithInt(
+                                .initialize(
                                         matrix,
                                         newMatrix,
                                         THRESHOLD*d,
@@ -60,7 +60,7 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
         int divider = (l-j)/THRESHOLD;
 
         IntStream.range(0,divider)
-                .forEach(d-> dividedTasks.add( getOperator().initializeWithInt(
+                .forEach(d-> dividedTasks.add( getOperator().initialize(
                 matrix,
                 newMatrix,
                 i,
@@ -81,7 +81,7 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
 
         IntStream.range(0,dividerVertical)
                 .forEach(dv-> IntStream.range(0, dividerHorizontal)
-                        .forEach(dh-> dividedTasks.add(getOperator().initializeWithInt(
+                        .forEach(dh-> dividedTasks.add(getOperator().initialize(
                                 matrix,
                                 newMatrix,
                                 THRESHOLD*dv,
