@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 public class MatrixRotator implements RotateMatrix {
 
     public static void rotate(int [][] matrix, int[][]tempMatrix,int i, int j, int k, int l){
-
+        System.out.println("Current " + Thread.currentThread());
         final int tempI = i;
         final int tempJ = j;
 //        System.out.println("Inside rotate: before");
@@ -39,8 +39,22 @@ public class MatrixRotator implements RotateMatrix {
     }
 
     @Override
-    public void rotate90VirtualThead(MatrixRotatorTask[] task) {
-        executeWithVirtualThreads(()-> Arrays.stream(task).forEach(MatrixRotatorTask::compute));
+    public void rotate90VirtualThead(MatrixRotatorTask[] tasks) throws InterruptedException {
+//        executeWithVirtualThreads(()-> Arrays.stream(task).forEach(MatrixRotatorTask::compute)).join();
+        System.out.println("Execution in Virtual Threads started!\nWait…");
+        var startTime =System.currentTimeMillis();
+
+
+        Arrays.stream(tasks).forEach(task -> {
+            try {
+                executeWithVirtualThreads(task::compute).join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        var endTime = System.currentTimeMillis();
+        System.out.println("Time elapsed: " + (endTime - startTime) + " ms");
     }
 
     @Override
@@ -53,7 +67,6 @@ public class MatrixRotator implements RotateMatrix {
 
     @Override
     public void rotate90CompletableFuture(MatrixRotatorTask[] tasks) {
-
         executeWithMetrics(()->{
             var futures = Arrays.stream(tasks)
                     .map(task -> CompletableFuture.runAsync(task::compute)).toList();
@@ -85,12 +98,11 @@ public class MatrixRotator implements RotateMatrix {
 
     }
 
-    private void executeWithVirtualThreads(Runnable task){
-        System.out.println("Execution in Virtual Threads started!\nWait…");
-        var startTime =System.currentTimeMillis();
-        Thread.ofVirtual().start(task);
-        var endTime = System.currentTimeMillis();
-        System.out.println("Time elapsed: " + (endTime - startTime) + " ms");
+    private Thread executeWithVirtualThreads(Runnable task){
+
+        var thread  = Thread.ofVirtual().start(task);
+
+        return thread;
     }
 
     private void executeWithMetrics(Runnable task){

@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class ConcurrentMatrixRotator {
-    public static void main(String[] args) {
-        int size = 200;
-        int numberOfMatrices = args.length == 0 ? 1000 : Integer.parseInt(args[0]) ;
+    public static void main(String[] args) throws InterruptedException {
+        int size = 1000;
+        int numberOfMatrices = args.length == 0 ? 1 : Integer.parseInt(args[0]) ;
         //      initialization with reversed length and width lets us create a new matrix with length and width of not equal size;
         //   int[][] newMatrix = new int[matrix[0].length][matrix.length]; but where?
 
@@ -40,19 +40,19 @@ public class ConcurrentMatrixRotator {
         rotateMatrix.rotate90Sequential(recursiveTasks);
         System.out.println("");
 
-
-        System.out.println("Rotate with CompleteableFuture");
-        rotateMatrix.rotate90CompletableFuture(recursiveTasks);
-        System.out.println("");
-
-
-        System.out.println("Rotate in parallel streams");
-        rotateMatrix.rotate90ParallelStream(recursiveTasks);
-        System.out.println("");
-
-        System.out.println("Rotate with CompleteableFutre with custom Thread pool");
-        rotateMatrix.rotate90CompletableFutureWithExecutor(recursiveTasks,7);
-        System.out.println("");
+//
+//        System.out.println("Rotate with CompleteableFuture");
+//        rotateMatrix.rotate90CompletableFuture(recursiveTasks);
+//        System.out.println("");
+//
+//
+//        System.out.println("Rotate in parallel streams");
+//        rotateMatrix.rotate90ParallelStream(recursiveTasks);
+//        System.out.println("");
+//
+//        System.out.println("Rotate with CompleteableFutre with custom Thread pool");
+//        rotateMatrix.rotate90CompletableFutureWithExecutor(recursiveTasks,7);
+//        System.out.println("");
 
 
         System.out.println("Rotate with Virtual Threads");
@@ -63,7 +63,6 @@ public class ConcurrentMatrixRotator {
         /**
          * generate and run simple tasks;
          * */
-
         MatrixRotatorTask[] sequentialTasks = matrices.stream()
                 .map(MatrixRotatorSequentialTask::new)
                 .toArray(MatrixRotatorTask[]::new);
@@ -72,13 +71,17 @@ public class ConcurrentMatrixRotator {
         System.out.println("Sequentially rotated matrices:");
         rotateMatrix.rotate90Sequential(sequentialTasks);
         System.out.println("");
+//
+//        System.out.println("Rotate with CompleteableFuture");
+//        rotateMatrix.rotate90CompletableFuture(sequentialTasks);
+//        System.out.println("");
+//
+//        System.out.println("Rotate in parallel streams");
+//        rotateMatrix.rotate90ParallelStream(sequentialTasks);
+//        System.out.println("");
 
-        System.out.println("Rotate with CompleteableFuture");
-        rotateMatrix.rotate90CompletableFuture(sequentialTasks);
-        System.out.println("");
-
-        System.out.println("Rotate in parallel streams");
-        rotateMatrix.rotate90ParallelStream(sequentialTasks);
+        System.out.println("Rotate with Virtual Threads");
+        rotateMatrix.rotate90VirtualThead(sequentialTasks);
         System.out.println("");
 
 //        System.out.println("Rotate with CompleteableFutre with custom Thread pool");
