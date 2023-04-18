@@ -14,11 +14,11 @@ public class MatrixRotatorRecursiveInVirtualThreadsTask extends MatrixRotatorRec
     }
 
    @Override
-   HexaInitializer<MatrixRotatorRecursiveInVirtualThreadsTask> getOperator(){
-        HexaInitializer<MatrixRotatorRecursiveInVirtualThreadsTask> operator = (matrix, newMatrix, i, j, k, l) -> {
+   HexaInitializer<MatrixRotatorRecursiveInVirtualThreadsTask> getInitializer(){
+        HexaInitializer<MatrixRotatorRecursiveInVirtualThreadsTask> initializer = (matrix, newMatrix, i, j, k, l) -> {
             return new MatrixRotatorRecursiveInVirtualThreadsTask(matrix,newMatrix,i,j,k,l);
         };
-        return operator;
+        return initializer;
     }
 
 

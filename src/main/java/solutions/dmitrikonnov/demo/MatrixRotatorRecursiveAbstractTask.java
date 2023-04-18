@@ -14,7 +14,7 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
     int i,j,k,l;
 
 
-    abstract HexaInitializer<? extends MatrixRotatorRecursiveAbstractTask> getOperator();
+    abstract HexaInitializer<? extends MatrixRotatorRecursiveAbstractTask> getInitializer();
     MatrixRotatorRecursiveAbstractTask(int[][] matrix) {
         if(matrix.length!=matrix[0].length) throw new RuntimeException("Rotating of matrix with unequal length and with is not implemented!");
         this.matrix = matrix;
@@ -44,7 +44,7 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
         IntStream.range(0,divider)
                 .forEach(d-> dividedTasks.
                 add(
-                        (getOperator()
+                        (getInitializer()
                                 .initialize(
                                         matrix,
                                         newMatrix,
@@ -60,7 +60,7 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
         int divider = (l-j)/THRESHOLD;
 
         IntStream.range(0,divider)
-                .forEach(d-> dividedTasks.add( getOperator().initialize(
+                .forEach(d-> dividedTasks.add( getInitializer().initialize(
                 matrix,
                 newMatrix,
                 i,
@@ -81,7 +81,7 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
 
         IntStream.range(0,dividerVertical)
                 .forEach(dv-> IntStream.range(0, dividerHorizontal)
-                        .forEach(dh-> dividedTasks.add(getOperator().initialize(
+                        .forEach(dh-> dividedTasks.add(getInitializer().initialize(
                                 matrix,
                                 newMatrix,
                                 THRESHOLD*dv,
