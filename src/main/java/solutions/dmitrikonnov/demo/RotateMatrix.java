@@ -12,7 +12,7 @@ public interface RotateMatrix {
    void rotate180CompletableFutureWithExecutor(MatrixRotatorTask[] tasks, int numberOfThreads);
    void rotate180ParallelStream(MatrixRotatorTask[] tasks);
 
-   void rotate90VirtualThead(MatrixRotatorTask [] task);
+   void rotate90VirtualThead(MatrixRotatorTask [] task) throws InterruptedException;
 
    void rotate270Sequential(MatrixRotatorTask[] tasks);
    void rotate270CompletableFuture(MatrixRotatorTask[] tasks);
