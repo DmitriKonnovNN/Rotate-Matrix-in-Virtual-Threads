@@ -8,15 +8,16 @@ import java.util.stream.IntStream;
 
 public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction {
 
-    static final int THRESHOLD = 10;
+    static final int THRESHOLD = 20;
     int[][] matrix;
     int[][] newMatrix;
     int i,j,k,l;
 
 
     abstract HexaInitializer<? extends MatrixRotatorRecursiveAbstractTask> getInitializer();
+
     MatrixRotatorRecursiveAbstractTask(int[][] matrix) {
-        if(matrix.length!=matrix[0].length) throw new RuntimeException("Rotating of matrix with unequal length and with is not implemented!");
+        if(matrix.length!=matrix[0].length) throw new RuntimeException("Rotating of matrix with unequal length and width is not implemented!");
         this.matrix = matrix;
         this.newMatrix = new int[matrix.length][matrix[0].length];
         this.i = 0;
