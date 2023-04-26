@@ -6,8 +6,8 @@ import java.util.stream.IntStream;
 
 public class ConcurrentMatrixRotator {
     public static void main(String[] args) {
-        int size = 1000;
-        int numberOfMatrices = args.length == 0 ? 1: Integer.parseInt(args[0]) ;
+        int size = 100;
+        int numberOfMatrices = args.length == 0 ? 2: Integer.parseInt(args[0]) ;
         //      initialization with reversed length and width lets us create a new matrix with length and width of not equal size;
         //   int[][] newMatrix = new int[matrix[0].length][matrix.length]; but where?
 
@@ -37,37 +37,49 @@ public class ConcurrentMatrixRotator {
         rotateMatrix.rotate90Sequential(recursiveTasks);
         System.out.println("");
 
-//
-//        System.out.println("Rotate with CompleteableFuture");
-//        rotateMatrix.rotate90CompletableFuture(recursiveTasks);
-//        System.out.println("");
-//
-//
-//        System.out.println("Rotate in parallel streams");
-//        rotateMatrix.rotate90ParallelStream(recursiveTasks);
-//        System.out.println("");
-//
-//        System.out.println("Rotate with CompleteableFutre with custom Thread pool");
-//        rotateMatrix.rotate90CompletableFutureWithExecutor(recursiveTasks,7);
-//        System.out.println("");
+
+        System.out.println("Rotate with CompleteableFuture");
+        rotateMatrix.rotate90CompletableFuture(recursiveTasks);
+        System.out.println("");
+
+
+        System.out.println("Rotate in parallel streams");
+        rotateMatrix.rotate90ParallelStream(recursiveTasks);
+        System.out.println("");
+
+        System.out.println("Rotate with CompleteableFutre with custom Thread pool");
+        rotateMatrix.rotate90CompletableFutureWithExecutor(recursiveTasks,7);
+        System.out.println("");
 
 
         System.out.println("Rotate with Virtual Threads");
         rotateMatrix.rotate90VirtualThread(recursiveTasks);
         System.out.println("");
 
+        System.out.println("Rotate with Virtual Threads with Executor");
+        rotateMatrix.rotate90VirtualThread(recursiveTasks,true,false);
+        System.out.println("");
+
+        System.out.println("Rotate with Virtual Threads with Executor and Factory");
+        rotateMatrix.rotate90VirtualThread(recursiveTasks,true,true);
+        System.out.println("");
+
+        System.out.println("Rotate with Virtual Threads with Factory");
+        rotateMatrix.rotate90VirtualThread(recursiveTasks,false,true);
+        System.out.println("");
+
         System.out.println("====================SIMPLE TASK=================================");
         /**
          * generate and run simple tasks;
          * */
-        MatrixRotatorTask[] sequentialTasks = matrices.stream()
-                .map(MatrixRotatorSequentialTask::new)
-                .toArray(MatrixRotatorTask[]::new);
-
-        System.out.println("rotate simple tasks");
-        System.out.println("Sequentially rotated matrices:");
-        rotateMatrix.rotate90Sequential(sequentialTasks);
-        System.out.println("");
+//        MatrixRotatorTask[] sequentialTasks = matrices.stream()
+//                .map(MatrixRotatorSequentialTask::new)
+//                .toArray(MatrixRotatorTask[]::new);
+//
+//        System.out.println("rotate simple tasks");
+//        System.out.println("Sequentially rotated matrices:");
+//        rotateMatrix.rotate90Sequential(sequentialTasks);
+//        System.out.println("");
 //
 //        System.out.println("Rotate with CompleteableFuture");
 //        rotateMatrix.rotate90CompletableFuture(sequentialTasks);
@@ -76,14 +88,27 @@ public class ConcurrentMatrixRotator {
 //        System.out.println("Rotate in parallel streams");
 //        rotateMatrix.rotate90ParallelStream(sequentialTasks);
 //        System.out.println("");
-
-        System.out.println("Rotate with Virtual Threads");
-        rotateMatrix.rotate90VirtualThread(sequentialTasks);
-        System.out.println("");
-
+//
 //        System.out.println("Rotate with CompleteableFutre with custom Thread pool");
 //        rotateMatrix.rotate90CompletableFutureWithExecutor(sequentialTasks,7);
 //        System.out.println("");
+//
+//        System.out.println("Rotate with Virtual Threads");
+//        rotateMatrix.rotate90VirtualThread(sequentialTasks);
+//        System.out.println("");
+//
+//        System.out.println("Rotate with Virtual Threads with Executor");
+//        rotateMatrix.rotate90VirtualThread(sequentialTasks,true,false);
+//        System.out.println("");
+//
+//        System.out.println("Rotate with Virtual Threads with Executor and Factory");
+//        rotateMatrix.rotate90VirtualThread(sequentialTasks,true,true);
+//        System.out.println("");
+//
+//        System.out.println("Rotate with Virtual Threads with Factory");
+//        rotateMatrix.rotate90VirtualThread(sequentialTasks,false,true);
+//        System.out.println("");
+
 
     }
 
