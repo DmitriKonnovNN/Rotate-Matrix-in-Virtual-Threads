@@ -4,6 +4,9 @@ import java.util.concurrent.ForkJoinTask;
 
 public class MatrixRotatorRecursiveTask extends MatrixRotatorRecursiveAbstractTask implements MatrixRotatorTask {
 
+    static int counterRotation = 0;
+    static int allAcrossSplit = 0;
+
     public MatrixRotatorRecursiveTask(int[][] matrix) {
         super(matrix);
     }
@@ -28,19 +31,24 @@ public class MatrixRotatorRecursiveTask extends MatrixRotatorRecursiveAbstractTa
     public void compute() {
         if(i==k || j==l) return;
 
-        if ((k-i)%THRESHOLD==0 && matrix.length==THRESHOLD && (l-j)%THRESHOLD==0 && matrix[0].length==THRESHOLD && k!=THRESHOLD && l!=THRESHOLD ){
+        if ((k-i)%THRESHOLD==0 && matrix.length%THRESHOLD==0 && (l-j)%THRESHOLD==0 && matrix[0].length%THRESHOLD==0 && k!=THRESHOLD && l!=THRESHOLD ){
+            System.out.println("All across split " + ++allAcrossSplit + " times");
             ForkJoinTask.invokeAll(createSubtaskAllAcrossSplit());
         }
         else if ((k-i)%THRESHOLD==0 && k!=THRESHOLD && matrix.length==THRESHOLD)
             {
+                System.out.println("Vertical split");
                 ForkJoinTask.invokeAll(createSubtaskVerticalSplit());
             }
         else if ((l-j)%THRESHOLD==0 && l!=THRESHOLD && matrix[0].length==THRESHOLD)
             {
+                System.out.println("Horizontal split");
                 ForkJoinTask.invokeAll(createSubtaskHorizontalSplit());
             }
 
-        else MatrixRotator.rotate(matrix, newMatrix, i, j, matrix.length, matrix[0].length);
+        else {
+            System.out.println("Sequential " + ++counterRotation + " times");
+            MatrixRotator.rotate(matrix, newMatrix, i, j, matrix.length, matrix[0].length);}
     }
 
 }

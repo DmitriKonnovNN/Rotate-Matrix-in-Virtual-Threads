@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction {
 
-    static final int THRESHOLD = 10;
+    static final int THRESHOLD = 20;
     int[][] matrix;
     int[][] newMatrix;
     int i,j,k,l;

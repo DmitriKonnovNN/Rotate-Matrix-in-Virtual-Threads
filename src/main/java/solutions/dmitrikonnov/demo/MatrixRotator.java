@@ -9,11 +9,10 @@ import java.util.concurrent.ThreadFactory;
 public class MatrixRotator implements RotateMatrix {
 
     public static void rotate(int [][] matrix, int[][]tempMatrix,int i, int j, int k, int l){
- //       System.out.println("Current " + Thread.currentThread());
+        System.out.println("Current " + Thread.currentThread());
         final int tempI = i;
         final int tempJ = j;
-//        System.out.println("Inside rotate: before");
-//        main.java.solutions.dmitrikonnov.Utils.printMatrix(matrix);
+
         for (; i < l; i++){
             for (; j < k; j++){
                 tempMatrix[j][matrix.length - 1 - i] = matrix[i][j];
@@ -23,8 +22,7 @@ public class MatrixRotator implements RotateMatrix {
         }
         i = tempI;
         j = tempJ;
-//        System.out.println("Inside rotate: tempMatrix after");
-//        main.java.solutions.dmitrikonnov.Utils.printMatrix(tempMatrix);
+
         for (;i < l; i++){
             for(;j < k; j++){
                 matrix[i][j]= Utils.generateHighCpuLoad(tempMatrix[i][j]);
@@ -32,8 +30,6 @@ public class MatrixRotator implements RotateMatrix {
             }
             if (j==k)j=tempJ;
         }
-//        System.out.println("Inside rotate: matrix after rotate");
-//        main.java.solutions.dmitrikonnov.Utils.printMatrix(matrix);
     }
     public static void rotate(int [][] matrix){
         rotate(matrix,new int[matrix.length][matrix[0].length],0,0,matrix.length,matrix[0].length );
@@ -87,7 +83,7 @@ public class MatrixRotator implements RotateMatrix {
         System.out.println("Execution in Virtual Threads started!\nWait…");
         var startTime =System.currentTimeMillis();
 
-        try (final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+        try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
             Arrays.stream(tasks).forEach(task -> executor.submit(task::compute));
 
         }
@@ -101,7 +97,7 @@ public class MatrixRotator implements RotateMatrix {
         System.out.println("Execution in Virtual Threads started!\nWait…");
         var startTime =System.currentTimeMillis();
         ThreadFactory factory = Thread.ofVirtual().name("VT-factory",0).factory();
-        try (final ExecutorService executor = Executors.newThreadPerTaskExecutor(factory)) {
+        try (ExecutorService executor = Executors.newThreadPerTaskExecutor(factory)) {
             Arrays.stream(tasks).forEach(task -> executor.submit(task::compute));
         }
         var endTime = System.currentTimeMillis();
@@ -151,7 +147,6 @@ public class MatrixRotator implements RotateMatrix {
 
                 futures.forEach(CompletableFuture::join);
             });
-  //          executor.shutdown();
         }
     }
 
