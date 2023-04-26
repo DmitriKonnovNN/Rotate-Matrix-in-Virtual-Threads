@@ -44,8 +44,4 @@ public class MatrixRotatorRecursiveInVirtualThreadsTask extends MatrixRotatorRec
 
     }
 
-
-    /**
-     * Splits matrix vertically and horizontally and passes start- and end- indexes to subtask.
-     * */
 }

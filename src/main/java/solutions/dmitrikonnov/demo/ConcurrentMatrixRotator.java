@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class ConcurrentMatrixRotator {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         int size = 1000;
-        int numberOfMatrices = args.length == 0 ? 1 : Integer.parseInt(args[0]) ;
+        int numberOfMatrices = args.length == 0 ? 1: Integer.parseInt(args[0]) ;
         //      initialization with reversed length and width lets us create a new matrix with length and width of not equal size;
         //   int[][] newMatrix = new int[matrix[0].length][matrix.length]; but where?
-
 
         int length = 5;
         int width = 10;
@@ -20,9 +19,7 @@ public class ConcurrentMatrixRotator {
          * generate list of matrices and print those;
          * */
         final List<int[][]> matrices = new ArrayList<>();
-        IntStream.range(0,numberOfMatrices).forEach(index->{
-            matrices.add(Utils.generateRandom2DMatrix(size));
-        });
+        IntStream.range(0,numberOfMatrices).forEach(index-> matrices.add(Utils.generateRandom2DMatrix(size)));
 
         /**
          * generate and run recursive tasks;
@@ -56,7 +53,7 @@ public class ConcurrentMatrixRotator {
 
 
         System.out.println("Rotate with Virtual Threads");
-        rotateMatrix.rotate90VirtualThead(recursiveTasks);
+        rotateMatrix.rotate90VirtualThread(recursiveTasks);
         System.out.println("");
 
         System.out.println("====================SIMPLE TASK=================================");
@@ -81,7 +78,7 @@ public class ConcurrentMatrixRotator {
 //        System.out.println("");
 
         System.out.println("Rotate with Virtual Threads");
-        rotateMatrix.rotate90VirtualThead(sequentialTasks);
+        rotateMatrix.rotate90VirtualThread(sequentialTasks);
         System.out.println("");
 
 //        System.out.println("Rotate with CompleteableFutre with custom Thread pool");

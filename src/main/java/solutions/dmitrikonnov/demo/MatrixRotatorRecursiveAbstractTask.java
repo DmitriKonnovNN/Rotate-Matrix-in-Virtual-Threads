@@ -15,8 +15,9 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
 
 
     abstract HexaInitializer<? extends MatrixRotatorRecursiveAbstractTask> getInitializer();
+
     MatrixRotatorRecursiveAbstractTask(int[][] matrix) {
-        if(matrix.length!=matrix[0].length) throw new RuntimeException("Rotating of matrix with unequal length and with is not implemented!");
+        if(matrix.length!=matrix[0].length) throw new RuntimeException("Rotating of matrix with unequal length and width is not implemented!");
         this.matrix = matrix;
         this.newMatrix = new int[matrix.length][matrix[0].length];
         this.i = 0;

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 public class MatrixRotator implements RotateMatrix {
 
@@ -39,11 +40,18 @@ public class MatrixRotator implements RotateMatrix {
     }
 
     @Override
-    public void rotate90VirtualThead(MatrixRotatorTask[] tasks) throws InterruptedException {
-//        executeWithVirtualThreads(()-> Arrays.stream(task).forEach(MatrixRotatorTask::compute)).join();
+    public void rotate90VirtualThread(MatrixRotatorTask[] tasks, boolean withExecutor, boolean withFactory){
+        if (withExecutor && withFactory) rotate90VirtualThreadWithExecutorAndFactory(tasks);
+        else if (withExecutor) rotate90VirtualThreadWithExecutor(tasks);
+        else if (withFactory) rotate90VirtualThreadWithFactory(tasks);
+        else rotate90VirtualThread(tasks);
+
+    }
+
+    @Override
+    public void rotate90VirtualThread(MatrixRotatorTask[] tasks) {
         System.out.println("Execution in Virtual Threads started!\nWait…");
         var startTime =System.currentTimeMillis();
-
 
         Arrays.stream(tasks).forEach(task -> {
             try {
@@ -55,6 +63,60 @@ public class MatrixRotator implements RotateMatrix {
 
         var endTime = System.currentTimeMillis();
         System.out.println("Time elapsed: " + (endTime - startTime) + " ms");
+    }
+
+
+    public void rotate90VirtualThreadWithFactory(MatrixRotatorTask[] tasks){
+        System.out.println("Execution in Virtual Threads started!\nWait…");
+        var startTime =System.currentTimeMillis();
+        ThreadFactory factory = Thread.ofVirtual().name("VT-factory",0).factory();
+        Arrays.stream(tasks).forEach(task -> {
+            try {
+                executeWithFactoryOfVirtualThreads(task::compute,factory).join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        var endTime = System.currentTimeMillis();
+        System.out.println("Time elapsed: " + (endTime - startTime) + " ms");
+    }
+
+
+    public void rotate90VirtualThreadWithExecutor(MatrixRotatorTask[] tasks ){
+        System.out.println("Execution in Virtual Threads started!\nWait…");
+        var startTime =System.currentTimeMillis();
+
+        try (final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            Arrays.stream(tasks).forEach(task -> executor.submit(task::compute));
+        }
+
+        var endTime = System.currentTimeMillis();
+        System.out.println("Time elapsed: " + (endTime - startTime) + " ms");
+    }
+
+    public void rotate90VirtualThreadWithExecutorAndFactory(MatrixRotatorTask[] tasks) {
+        System.out.println("Execution in Virtual Threads started!\nWait…");
+        var startTime =System.currentTimeMillis();
+        ThreadFactory factory = Thread.ofVirtual().name("VT-factory",0).factory();
+        try (ExecutorService executor = Executors.newThreadPerTaskExecutor(factory)) {
+            Arrays.stream(tasks).forEach(task -> executor.submit(task::compute));
+        }
+        var endTime = System.currentTimeMillis();
+        System.out.println("Time elapsed: " + (endTime - startTime) + " ms");
+    }
+
+    private Thread executeWithVirtualThreads(Runnable task){
+
+        var thread  = Thread.ofVirtual().name("inner-thread",0).start(task);
+
+        return thread;
+    }
+
+    private Thread executeWithFactoryOfVirtualThreads(Runnable task, ThreadFactory factory){
+        Thread thread = factory.newThread(task);
+        thread.start();
+        return thread;
     }
 
     @Override
@@ -79,16 +141,16 @@ public class MatrixRotator implements RotateMatrix {
     @Override
     public void rotate90CompletableFutureWithExecutor(MatrixRotatorTask[] tasks, int numberOfThreads) {
 
-        ExecutorService executor = Executors.newFixedThreadPool(Math.min(numberOfThreads, tasks.length));
+        try (ExecutorService executor = Executors.newFixedThreadPool(Math.min(numberOfThreads, tasks.length))){
 
-        executeWithMetrics(()->{
-            var futures = Arrays.stream(tasks)
-                    .map(task -> CompletableFuture.runAsync(task::compute, executor)).toList();
+            executeWithMetrics(()->{
+                var futures = Arrays.stream(tasks)
+                        .map(task -> CompletableFuture.runAsync(task::compute, executor)).toList();
 
-            futures.forEach(CompletableFuture::join);
-        });
-
-        executor.shutdown();
+                futures.forEach(CompletableFuture::join);
+            });
+            executor.shutdown();
+        }
     }
 
     @Override
@@ -98,12 +160,7 @@ public class MatrixRotator implements RotateMatrix {
 
     }
 
-    private Thread executeWithVirtualThreads(Runnable task){
 
-        var thread  = Thread.ofVirtual().start(task);
-
-        return thread;
-    }
 
     private void executeWithMetrics(Runnable task){
 
