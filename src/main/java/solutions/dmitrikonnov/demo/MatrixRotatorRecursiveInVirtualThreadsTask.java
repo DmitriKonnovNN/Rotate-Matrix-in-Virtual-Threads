@@ -3,8 +3,10 @@ package solutions.dmitrikonnov.demo;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MatrixRotatorRecursiveInVirtualThreadsTask extends MatrixRotatorRecursiveAbstractTask implements MatrixRotatorTask{
+
 
 
     public MatrixRotatorRecursiveInVirtualThreadsTask(int[][] matrix) {
@@ -30,21 +32,21 @@ public class MatrixRotatorRecursiveInVirtualThreadsTask extends MatrixRotatorRec
     public void compute() {
         if(i==k || j==l) return;
         try(ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            if ((k-i)%THRESHOLD==0 && matrix.length==THRESHOLD && (l-j)%THRESHOLD==0 && matrix[0].length==THRESHOLD && k!=THRESHOLD && l!=THRESHOLD ){
+            if ((k-i)%THRESHOLD==0 && k-i!=THRESHOLD && (l-j)%THRESHOLD==0 && l-j!=THRESHOLD && k!=THRESHOLD && l!=THRESHOLD ){
                 executor.submit(()->{
-                    System.out.println("All across split");
+                    System.out.println("All across split " + allAcrossSplit.incrementAndGet() + " times");
                     createSubtaskAllAcrossSplit().forEach(MatrixRotatorRecursiveAbstractTask::compute);
 
                 });
             }
-            else if ((k-i)%THRESHOLD==0 && k!=THRESHOLD && matrix.length==THRESHOLD)
+            else if ((k-i)%THRESHOLD==0 && k!=THRESHOLD && k-i!=THRESHOLD)
             {
                 executor.submit(()->{
                     System.out.println("Vertical split");
                     createSubtaskVerticalSplit().forEach(MatrixRotatorRecursiveAbstractTask::compute);
                 });
             }
-            else if ((l-j)%THRESHOLD==0 && l!=THRESHOLD && matrix[0].length==THRESHOLD)
+            else if ((l-j)%THRESHOLD==0 && l!=THRESHOLD && l-j!=THRESHOLD)
             {
                 executor.submit(()->{
                     System.out.println("Horizontal split");
@@ -53,7 +55,7 @@ public class MatrixRotatorRecursiveInVirtualThreadsTask extends MatrixRotatorRec
             }
 
             else {
-                System.out.println("Sequential");
+                System.out.println("Sequential" + counterRotation.incrementAndGet() + " times");
                 MatrixRotator.rotate(matrix, newMatrix, i, j, matrix.length, matrix[0].length);}
         }
     }

@@ -6,13 +6,14 @@ import java.util.stream.IntStream;
 
 public class ConcurrentMatrixRotator {
     public static void main(String[] args) {
-        int size = 40;
-        int numberOfMatrices = args.length == 0 ? 10: Integer.parseInt(args[0]) ;
+        int size = 80;
+        int numberOfMatrices = args.length == 0 ? 1: Integer.parseInt(args[0]) ;
         //      initialization with reversed length and width lets us create a new matrix with length and width of not equal size;
         //   int[][] newMatrix = new int[matrix[0].length][matrix.length]; but where?
 
         int length = 5;
         int width = 10;
+
         RotateMatrix rotateMatrix = new MatrixRotator();
 
         /**
@@ -116,14 +117,14 @@ public class ConcurrentMatrixRotator {
          * generate and run recursive tasks;
          * */
 
-//        MatrixRotatorTask[] recursiveInVTTasks = matrices.stream()
-//                .map(MatrixRotatorRecursiveInVirtualThreadsTask::new)
-//                .toArray(MatrixRotatorTask[]::new);
-//        System.out.println("Before rotation. Number of tasks: " + recursiveTasks.length);
-//
-//        System.out.println("Rotate recursive tasks");
-//        rotateMatrix.rotate90Sequential(recursiveInVTTasks);
-//        System.out.println("");
+        MatrixRotatorTask[] recursiveInVTTasks = matrices.stream()
+                .map(MatrixRotatorRecursiveInVirtualThreadsTask::new)
+                .toArray(MatrixRotatorTask[]::new);
+        System.out.println("Before rotation. Number of tasks: " + recursiveInVTTasks.length);
+
+        System.out.println("Rotate recursive tasks");
+        rotateMatrix.rotate90Sequential(recursiveInVTTasks);
+        System.out.println("");
     }
 
 }

@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction {
 
     static final int THRESHOLD = 20;
+
+    final static AtomicInteger counterRotation = new AtomicInteger(0);
+    final static AtomicInteger allAcrossSplit = new AtomicInteger(0);
+
     int[][] matrix;
     int[][] newMatrix;
     int i,j,k,l;
