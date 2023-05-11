@@ -50,8 +50,7 @@ public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction
         IntStream.range(0,divider)
                 .forEach(d-> dividedTasks.
                 add(
-                        (getInitializer()
-                                .initialize(
+                        (getInitializer().initialize(
                                         matrix,
                                         newMatrix,
                                         THRESHOLD*d,
