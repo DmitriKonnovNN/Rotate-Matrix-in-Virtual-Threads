@@ -40,10 +40,10 @@ sudo apt-get install -y git
 
 echo "============== install maven ${MAVEN_VERSION} =========================="
 
-sudo curl -fsSL ${MAVEN_URL} -o /tmp/apache-maven.tar.gz && \
-  tar -xvf /tmp/apache-maven.tar.gz && \
+sudo curl -fsSL ${MAVEN_URL} -o /tmp/apache-mave/optn.tar.gz && \
+  tar -xvf /tmp/apache-maven.tar.gz -C /tmp && \
   mv /tmp/apache-maven-${MAVEN_VERSION} /opt/apache-maven-${MAVEN_VERSION} && \
-  rm -f /tmp/apache-maven.tar.gz && \
+  rm -f /tmp/apache-maven.tar.gz
 export M2_HOME="/opt/apache-maven-${MAVEN_VERSION}" && \
 echo "export M2_HOME="/opt/apache-maven-${MAVEN_VERSION}"" | tee -a ~/.bashrc >> ~/.profile
 
