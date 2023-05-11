@@ -51,9 +51,9 @@ echo "== install graalvm community edition ${GRAALVM_VERSION} and native image =
 
 sudo curl -fsSL ${GRAALVM_URL} -o /tmp/graalvm.tar.gz && \
   tar -xvf /tmp/graalvm.tar.gz -C /tmp && \
-  mkdir /usr/lib/jvm && \
-  mv /tmp/graalvm-ce-java${JAVA_VERSION}-${GRAALVM_VERSION} /usr/lib/jvm/graalvm-ce-java${JAVA_VERSION}-${GRAALVM_VERSION} && \
-  rm -f /tmp/graalvm.tar.gz
+  sudo mkdir /usr/lib/jvm && \
+  sudo mv /tmp/graalvm-ce-java${JAVA_VERSION}-${GRAALVM_VERSION} /usr/lib/jvm/graalvm-ce-java${JAVA_VERSION}-${GRAALVM_VERSION} && \
+  sudo rm -f /tmp/graalvm.tar.gz
 
 export JAVA_HOME="/usr/lib/jvm/graalvm-ce-java${JAVA_VERSION}-${GRAALVM_VERSION}"
 sudo echo "export JAVA_HOME="/usr/lib/jvm/graalvm-ce-java${JAVA_VERSION}-${GRAALVM_VERSION}"" | tee -a ~/.bashrc >> ~/.profile
@@ -67,7 +67,7 @@ sudo update-alternatives --install /usr/bin/java java ${JAVA_HOME}/bin/java 1
 sudo update-alternatives --install /usr/bin/javac javac ${JAVA_HOME}/bin/javac 1
 java -version
 javac -version
-sudo gu install native-image
+gu install native-image
 
 echo "================= install docker ========================"
 
