@@ -1,13 +1,27 @@
 package solutions.dmitrikonnov.demo;
 
+import java.time.Duration;
+
 public class Utils {
 
-    public static int generateHighCpuLoad (int numberOfIterations){
-        int result = 0;
-        for (int i = 0; i < numberOfIterations; i++) {
+    public static void generateHighCpuLoad (){
+        double result = 0;
+        int iterations = (int) (Math.random() * 1000);
+        for (int i = 0; i < iterations; i++) {
             result += Math.sqrt(i);
         }
-        return result;
+        System.out.println(">>computation result: " + result );
+    }
+
+    public static void mockDelay(){
+        try {
+            Duration delay = Duration.ofSeconds((int) (Math.random() * 10));
+            System.out.println("delay " + delay);
+            Thread.sleep(delay);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static int [][] generateRandom2DMatrix(){
