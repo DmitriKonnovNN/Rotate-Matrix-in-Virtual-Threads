@@ -6,8 +6,8 @@ import java.util.stream.IntStream;
 
 public class ConcurrentMatrixRotator {
     public static void main(String[] args) {
-        int size = 100;
-        int numberOfMatrices = args.length == 0 ? 1: Integer.parseInt(args[0]) ;
+        int size = 1000;
+        int numberOfMatrices = args.length == 0 ? 100: Integer.parseInt(args[0]) ;
         //      initialization with reversed length and width lets us create a new matrix with length and width of not equal size;
         //   int[][] newMatrix = new int[matrix[0].length][matrix.length]; but where?
 
@@ -49,7 +49,7 @@ public class ConcurrentMatrixRotator {
 //        System.out.println("");
 //
 //        System.out.println("Rotate with CompleteableFutre with custom Thread pool");
-//        rotateMatrix.rotate90CompletableFutureWithExecutor(recursiveTasks,7);
+//        rotateMatrix.rotate90CompletableFutureWithExecutor(recursiveTasks,200);
 //        System.out.println("");
 //
 //
@@ -126,11 +126,11 @@ public class ConcurrentMatrixRotator {
 //        rotateMatrix.rotate90Sequential(recursiveInVTTasks);
 //        System.out.println("");
 
-//        System.out.println("Rotate recursive vt tasks with exectuor");
-//        rotateMatrix.rotate90VirtualThread(recursiveInVTTasks,true,false);
-//        System.out.println();
+        System.out.println("Rotate recursive vt tasks with exectuor");
+        rotateMatrix.rotate90VirtualThread(recursiveInVTTasks,true,false);
+        System.out.println();
 
-        rotateMatrix.rotate90ParallelStream(recursiveInVTTasks);
+//        rotateMatrix.rotate90ParallelStream(recursiveInVTTasks);
     }
 
 }

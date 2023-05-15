@@ -10,6 +10,8 @@ public class MatrixRotator implements RotateMatrix {
 
 
     public static void rotate(int [][] matrix, int[][]tempMatrix,int i, int j, int k, int l){
+        Utils.mockDelay();
+        Utils.generateHighCpuLoad();
         System.out.println("Current " + Thread.currentThread());
         final int tempI = i;
         final int tempJ = j;
@@ -26,8 +28,7 @@ public class MatrixRotator implements RotateMatrix {
 
         for (;i < l; i++){
             for(;j < k; j++){
-                matrix[i][j]= Utils.generateHighCpuLoad(tempMatrix[i][j]);
-
+                matrix[i][j]= tempMatrix[i][j];
             }
             if (j==k)j=tempJ;
         }

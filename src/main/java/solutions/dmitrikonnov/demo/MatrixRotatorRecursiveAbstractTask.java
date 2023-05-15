@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 
 public abstract class MatrixRotatorRecursiveAbstractTask extends RecursiveAction {
 
-    static final int THRESHOLD = 20;
+    static final int THRESHOLD = 10;
 
     final static AtomicInteger counterRotation = new AtomicInteger(0);
     final static AtomicInteger allAcrossSplit = new AtomicInteger(0);
