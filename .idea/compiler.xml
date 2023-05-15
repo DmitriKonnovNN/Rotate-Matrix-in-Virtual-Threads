@@ -10,9 +10,6 @@
         <module name="rotate-Matrix" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="rotateMatrix" target="19" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_STRING" value="--enable-preview --source 19" />

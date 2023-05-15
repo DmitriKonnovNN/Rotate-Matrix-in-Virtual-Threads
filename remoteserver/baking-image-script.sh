@@ -12,6 +12,7 @@ CLOUD_WATCH_AGENT_URL='https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/am
 
 echo "====== System Update and Upgrade ======="
 
+#sudo apt-get clean
 sudo apt-get update -y
 sudo apt-get upgrade -y
 sudo apt install -y software-properties-common
@@ -40,10 +41,10 @@ sudo apt-get install -y git
 
 echo "============== install maven ${MAVEN_VERSION} =========================="
 
-sudo curl -fsSL ${MAVEN_URL} -o /tmp/apache-mave/optn.tar.gz && \
+sudo curl -fsSL ${MAVEN_URL} -o /tmp/apache-maven.tar.gz && \
   tar -xvf /tmp/apache-maven.tar.gz -C /tmp && \
-  mv /tmp/apache-maven-${MAVEN_VERSION} /opt/apache-maven-${MAVEN_VERSION} && \
-  rm -f /tmp/apache-maven.tar.gz
+  sudo mv /tmp/apache-maven-${MAVEN_VERSION} /opt/apache-maven-${MAVEN_VERSION} && \
+  sudo rm -f /tmp/apache-maven.tar.gz
 export M2_HOME="/opt/apache-maven-${MAVEN_VERSION}" && \
 echo "export M2_HOME="/opt/apache-maven-${MAVEN_VERSION}"" | tee -a ~/.bashrc >> ~/.profile
 

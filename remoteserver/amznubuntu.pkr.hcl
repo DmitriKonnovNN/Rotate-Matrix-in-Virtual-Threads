@@ -35,7 +35,7 @@ build {
 
 variable "version" {
   type    = string
-  default = "003"
+  default = "006"
 }
 variable "base_image_owner" {
   type        = string
