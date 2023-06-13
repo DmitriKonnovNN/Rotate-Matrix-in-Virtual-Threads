@@ -14,7 +14,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_STRING" value="--enable-preview --source 19" />
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="rotate-Matrix" options="" />
+      <module name="rotateMatrix" options="" />
     </option>
   </component>
 </project>
