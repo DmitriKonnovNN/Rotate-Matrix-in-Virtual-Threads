@@ -28,6 +28,20 @@ resource "aws_instance" "remote_server" {
   ami           = data.aws_ami.backed_image.id
   key_name      = aws_key_pair.ec2-key-pair.key_name
   user_data     = templatefile("user-data.tftpl", { user_name = var.user_name })
+
+  /* provisioner "remote-exec" {
+    script = file("user-data.sh")
+  }
+   provisioner "file" {
+    source = "user-data.sh"
+    destination = "/tmp/user-data.sh"
+  }
+  connection {
+    type        = "ssh"
+    host        = self.public_ip
+    user        = "ubuntu"
+    private_key = file("${var.app_name}-key.pem")
+  } */
   tags = {
     CreatedBy = var.owner
     Name      = var.app_name

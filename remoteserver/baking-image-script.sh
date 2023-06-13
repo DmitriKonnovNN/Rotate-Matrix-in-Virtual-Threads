@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 
 echo "============= baking an image for remote server ==============="
 
@@ -9,6 +9,9 @@ JAVA_VERSION='19'
 MAVEN_URL="https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 GRAALVM_URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-${GRAALVM_VERSION}/graalvm-ce-java${JAVA_VERSION}-linux-amd64-${GRAALVM_VERSION}.tar.gz"
 CLOUD_WATCH_AGENT_URL='https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb'
+KUBECTL_VERSION='v1.25.9'
+AWS_CLI_VERSION='2.0.30'
+
 
 echo "====== System Update and Upgrade ======="
 
@@ -73,3 +76,29 @@ gu install native-image
 echo "================= install docker ========================"
 
 sudo apt-get install -y docker.io
+
+echo "============== install terraform =========================="
+sudo apt-get install -y gnupg software-properties-common curl
+sudo curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt-get update
+sudo apt-get install -y terraform
+
+echo "============== install packer ============================="
+sudo apt-get install -y packer
+echo "============== install vagrant ============================"
+sudo apt-get install -y vagrant
+
+echo "================= install vault ==========================="
+sudo apt-get install -y vault
+echo "================== install unzip =========================="
+sudo apt-get install unzip
+echo "================== install aws cli ========================"
+sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" -o "awscliv2.zip"
+sudo unzip awscliv2.zip
+sudo ./aws/install
+echo "=================== install kubectl ======================="
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo curl -LO https://dl.k8s.io/release/$KUBECTL_VERSION/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
