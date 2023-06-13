@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xe
 
 python --version
 python3 --version

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="ubuntu@ec2-3-210-178-250.compute-1.amazonaws.com:22" type="ssh/sftp" uuid="c1f7833f-ff35-4006-bd53-3f9749a59e9a">
+        <config>
+          <option name="projectRootOnTarget" value="/home/ubuntu/rotateMatrix" />
+          <option name="serverName" value="ubuntu@ec2-3-210-178-250.compute-1.amazonaws.com:22 key" />
+        </config>
+        <ContributedStateBase type="JavaLanguageRuntime">
+          <config>
+            <option name="classpathFolder">
+              <VolumeState>
+                <option name="remotePath" value="/home/ubuntu" />
+              </VolumeState>
+            </option>
+            <option name="homePath" value="/usr/lib/jvm/graalvm-ce-java19-22.3.1" />
+            <option name="javaVersionString" value="19.0.2" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>

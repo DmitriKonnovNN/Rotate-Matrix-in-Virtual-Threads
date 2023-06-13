@@ -14,7 +14,7 @@ source "amazon-ebs" "amznubuntu" {
   profile       = "micro-terraform"
   source_ami_filter {
     filters = {
-      name                = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
+      name                = "ubuntu/images/hvm-ssd/${var.ubuntu_version}-amd64-server-*"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
@@ -35,10 +35,15 @@ build {
 
 variable "version" {
   type    = string
-  default = "006"
+  default = "012"
 }
 variable "base_image_owner" {
   type        = string
   default     = "099720109477"
   description = "ubuntu_canonical"
+}
+
+variable "ubuntu_version" {
+  type    = string
+  default = "ubuntu-jammy-22.04"
 }
