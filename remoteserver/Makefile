@@ -15,3 +15,6 @@ tf-apply:
 
 tf-destroy:
 	cd ./infra && make destroy
+#version:
+#	@echo "$(VERSION)" > VERSION
+#	echo VERSION
