@@ -6,8 +6,8 @@ import java.util.stream.IntStream;
 
 public class ConcurrentMatrixRotator {
     public static void main(String[] args) {
-        int size = 500;
-        int numberOfMatrices = args.length == 0 ? 100: Integer.parseInt(args[0]) ;
+        int size = 10;
+        int numberOfMatrices = args.length == 0 ? 1: Integer.parseInt(args[0]) ;
         //      initialization with reversed length and width lets us create a new matrix with length and width of not equal size;
         //   int[][] newMatrix = new int[matrix[0].length][matrix.length]; but where?
 
@@ -15,6 +15,9 @@ public class ConcurrentMatrixRotator {
         int width = 10;
 
         RotateMatrix rotateMatrix = new MatrixRotator();
+
+        Utils.printMatrix(Utils.generateExpandingSpiral2DMatrix(25));
+
 
         /**
          * generate list of matrices and print those;
